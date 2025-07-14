@@ -97,10 +97,10 @@ const QualitySection = () => {
           <p
             className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             data-editable
-            data-name="homepage.quality.subtitle">
+            data-name="homepage.quality.subtitle">Nous assumons l'intégralité de vos obligations administratives et qualité, pour que vous puissiez vous concentrer sur votre expertise pédagogique.
 
-            Nous assumons l&#39;intégralité de vos obligations administratives et qualité, 
-            pour que vous puissiez vous concentrer sur votre expertise pédagogique.
+
+
           </p>
         </div>
 
