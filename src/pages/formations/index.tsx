@@ -12,7 +12,8 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCMSData, getCMSData } from '@/hooks/use-data';
-import { Formation, Formateur, Thematique, Financement } from '@/types/formations';
+import { Formation, Formateur, Thematique } from '@/types/formations';
+import { Financement } from '@/types/financements';
 
 interface CatalogPageProps {
   formations: Formation[];
