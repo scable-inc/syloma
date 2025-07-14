@@ -1,0 +1,1232 @@
+{
+  "collections": [
+    {
+      "name": "formations",
+      "label": "Formations",
+      "description": "Catalogue des formations proposées par l'organisme",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "titre",
+          "type": "text",
+          "label": "Titre",
+          "description": "Le titre principal de la formation",
+          "required": true,
+          "validation_rules": [
+            {
+              "type": "min_length",
+              "value": 5,
+              "message": "Le titre doit contenir au moins 5 caractères"
+            }
+          ]
+        },
+        {
+          "name": "slug",
+          "type": "slug",
+          "label": "URL Slug",
+          "description": "Identifiant URL SEO-friendly",
+          "required": false
+        },
+        {
+          "name": "accroche",
+          "type": "text",
+          "label": "Accroche",
+          "description": "Phrase d'accroche courte et percutante",
+          "required": true,
+          "validation_rules": [
+            {
+              "type": "max_length",
+              "value": 150,
+              "message": "L'accroche ne doit pas dépasser 150 caractères"
+            }
+          ]
+        },
+        {
+          "name": "objectifs_pedagogiques",
+          "type": "rich_text",
+          "label": "Objectifs Pédagogiques", 
+          "description": "Liste des objectifs d'apprentissage de la formation",
+          "required": true
+        },
+        {
+          "name": "public_vise",
+          "type": "text",
+          "label": "Public Visé",
+          "description": "Description du public cible",
+          "required": true
+        },
+        {
+          "name": "prerequis",
+          "type": "rich_text",
+          "label": "Prérequis",
+          "description": "Compétences et connaissances requises",
+          "required": false
+        },
+        {
+          "name": "programme_detaille",
+          "type": "rich_text",
+          "label": "Programme Détaillé",
+          "description": "Contenu complet du programme de formation",
+          "required": true
+        },
+        {
+          "name": "methodes_mobilisees",
+          "type": "rich_text",
+          "label": "Méthodes Mobilisées",
+          "description": "Approches pédagogiques utilisées",
+          "required": true
+        },
+        {
+          "name": "duree",
+          "type": "text",
+          "label": "Durée",
+          "description": "Durée totale de la formation",
+          "required": true
+        },
+        {
+          "name": "rythme",
+          "type": "text",
+          "label": "Rythme",
+          "description": "Planning et organisation temporelle",
+          "required": true
+        },
+        {
+          "name": "lieu",
+          "type": "text",
+          "label": "Lieu",
+          "description": "Localisation ou modalité de lieu",
+          "required": true
+        },
+        {
+          "name": "accessibilite",
+          "type": "rich_text",
+          "label": "Accessibilité",
+          "description": "Informations sur l'accessibilité PMR",
+          "required": true
+        },
+        {
+          "name": "modalites_evaluation",
+          "type": "rich_text",
+          "label": "Modalités d'Évaluation",
+          "description": "Comment les compétences sont évaluées",
+          "required": true
+        },
+        {
+          "name": "niveau",
+          "type": "text",
+          "label": "Niveau",
+          "description": "Niveau de difficulté (Débutant, Intermédiaire, Avancé)",
+          "required": true
+        },
+        {
+          "name": "modalites",
+          "type": "text",
+          "is_array": true,
+          "label": "Modalités",
+          "description": "Types de modalités (Présentiel, Distanciel, Hybride)",
+          "required": true
+        },
+        {
+          "name": "prix",
+          "type": "price",
+          "label": "Prix",
+          "description": "Tarif de la formation",
+          "required": true
+        },
+        {
+          "name": "formateur_id",
+          "type": "relation_select",
+          "label": "Formateur",
+          "description": "Formateur principal de cette formation",
+          "required": true,
+          "relation_config": {
+            "type": "one_to_many",
+            "target_collection": "formateurs",
+            "display_field": "nom"
+          }
+        },
+        {
+          "name": "thematique_id",
+          "type": "relation_select",
+          "label": "Thématique",
+          "description": "Thématique principale de la formation",
+          "required": true,
+          "relation_config": {
+            "type": "one_to_many",
+            "target_collection": "thematiques",
+            "display_field": "nom"
+          }
+        },
+        {
+          "name": "financements_eligibles",
+          "type": "relation_multiple",
+          "label": "Financements Éligibles",
+          "description": "Types de financements acceptés",
+          "required": false,
+          "relation_config": {
+            "type": "many_to_many",
+            "target_collection": "financements",
+            "display_field": "nom"
+          }
+        },
+        {
+          "name": "image_principale",
+          "type": "image",
+          "label": "Image Principale",
+          "description": "Image de présentation de la formation",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "label": "Formation Active",
+          "description": "La formation est-elle visible dans le catalogue",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "formateurs",
+      "label": "Formateurs",
+      "description": "Profils des formateurs partenaires",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom complet du formateur",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "type": "slug",
+          "label": "URL Slug",
+          "description": "Identifiant URL SEO-friendly",
+          "required": false
+        },
+        {
+          "name": "bio",
+          "type": "rich_text",
+          "label": "Biographie",
+          "description": "Présentation professionnelle du formateur",
+          "required": true
+        },
+        {
+          "name": "logo_photo",
+          "type": "image",
+          "label": "Photo/Logo",
+          "description": "Photo ou logo du formateur",
+          "required": false
+        },
+        {
+          "name": "specialites",
+          "type": "text",
+          "is_array": true,
+          "label": "Spécialités",
+          "description": "Domaines d'expertise du formateur",
+          "required": true
+        },
+        {
+          "name": "certifications",
+          "type": "text",
+          "is_array": true,
+          "label": "Certifications",
+          "description": "Certifications professionnelles détenues",
+          "required": false
+        },
+        {
+          "name": "email_contact",
+          "type": "email",
+          "label": "Email de Contact",
+          "description": "Adresse email professionnelle",
+          "required": false
+        },
+        {
+          "name": "telephone",
+          "type": "text",
+          "label": "Téléphone",
+          "description": "Numéro de téléphone professionnel",
+          "required": false
+        },
+        {
+          "name": "site_web",
+          "type": "url",
+          "label": "Site Web",
+          "description": "Site web ou portfolio du formateur",
+          "required": false
+        },
+        {
+          "name": "linkedin",
+          "type": "url",
+          "label": "LinkedIn",
+          "description": "Profil LinkedIn professionnel",
+          "required": false
+        },
+        {
+          "name": "experience_annees",
+          "type": "number",
+          "label": "Années d'Expérience",
+          "description": "Nombre d'années d'expérience en formation",
+          "required": false
+        },
+        {
+          "name": "actif",
+          "type": "boolean",
+          "label": "Formateur Actif",
+          "description": "Le formateur est-il actif dans l'organisme",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "thematiques",
+      "label": "Thématiques",
+      "description": "Thématiques de formation disponibles",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom de la thématique",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "type": "slug",
+          "label": "URL Slug",
+          "description": "Identifiant URL SEO-friendly",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "rich_text",
+          "label": "Description",
+          "description": "Description détaillée de la thématique",
+          "required": true
+        },
+        {
+          "name": "icone",
+          "type": "text",
+          "label": "Icône",
+          "description": "Nom de l'icône (ex: laptop, users, chart)",
+          "required": false
+        },
+        {
+          "name": "couleur",
+          "type": "color",
+          "label": "Couleur",
+          "description": "Couleur associée à la thématique",
+          "required": false
+        },
+        {
+          "name": "ordre",
+          "type": "number",
+          "label": "Ordre d'Affichage",
+          "description": "Position dans la liste des thématiques",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "label": "Thématique Active",
+          "description": "La thématique est-elle visible",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "financements",
+      "label": "Financements",
+      "description": "Types de financements disponibles",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom du type de financement",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "type": "slug",
+          "label": "URL Slug",
+          "description": "Identifiant URL SEO-friendly",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "rich_text",
+          "label": "Description",
+          "description": "Description détaillée du financement",
+          "required": true
+        },
+        {
+          "name": "eligibilite",
+          "type": "rich_text",
+          "label": "Critères d'Éligibilité",
+          "description": "Conditions pour bénéficier de ce financement",
+          "required": true
+        },
+        {
+          "name": "processus",
+          "type": "rich_text",
+          "label": "Processus de Demande",
+          "description": "Étapes pour obtenir le financement",
+          "required": true
+        },
+        {
+          "name": "logo",
+          "type": "image",
+          "label": "Logo",
+          "description": "Logo de l'organisme financeur",
+          "required": false
+        },
+        {
+          "name": "site_officiel",
+          "type": "url",
+          "label": "Site Officiel",
+          "description": "Lien vers le site de l'organisme financeur",
+          "required": false
+        },
+        {
+          "name": "actif",
+          "type": "boolean",
+          "label": "Financement Actif",
+          "description": "Ce financement est-il toujours disponible",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "certifications",
+      "label": "Certifications",
+      "description": "Certifications de l'organisme de formation",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom de la certification",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "rich_text",
+          "label": "Description",
+          "description": "Description de la certification et ses avantages",
+          "required": true
+        },
+        {
+          "name": "logo",
+          "type": "image",
+          "label": "Logo",
+          "description": "Logo officiel de la certification",
+          "required": false
+        },
+        {
+          "name": "organisme_certificateur",
+          "type": "text",
+          "label": "Organisme Certificateur",
+          "description": "Nom de l'organisme qui délivre la certification",
+          "required": true
+        },
+        {
+          "name": "date_obtention",
+          "type": "date",
+          "label": "Date d'Obtention",
+          "description": "Date à laquelle la certification a été obtenue",
+          "required": false
+        },
+        {
+          "name": "date_expiration",
+          "type": "date",
+          "label": "Date d'Expiration",
+          "description": "Date d'expiration de la certification (si applicable)",
+          "required": false
+        },
+        {
+          "name": "numero_certification",
+          "type": "text",
+          "label": "Numéro de Certification",
+          "description": "Numéro officiel de la certification",
+          "required": false
+        },
+        {
+          "name": "ordre",
+          "type": "number",
+          "label": "Ordre d'Affichage",
+          "description": "Position dans la liste des certifications",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "label": "Certification Active",
+          "description": "La certification est-elle toujours valide",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "temoignages",
+      "label": "Témoignages",
+      "description": "Témoignages de stagiaires et formateurs",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom de la personne qui témoigne",
+          "required": true
+        },
+        {
+          "name": "entreprise",
+          "type": "text",
+          "label": "Entreprise",
+          "description": "Nom de l'entreprise ou organisation",
+          "required": false
+        },
+        {
+          "name": "poste",
+          "type": "text",
+          "label": "Poste",
+          "description": "Fonction occupée",
+          "required": false
+        },
+        {
+          "name": "formation_suivie",
+          "type": "text",
+          "label": "Formation Suivie",
+          "description": "Formation concernée par le témoignage",
+          "required": false
+        },
+        {
+          "name": "temoignage",
+          "type": "rich_text",
+          "label": "Témoignage",
+          "description": "Contenu du témoignage",
+          "required": true
+        },
+        {
+          "name": "note",
+          "type": "rating",
+          "label": "Note",
+          "description": "Note sur 5 étoiles",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "label": "Type de Témoin",
+          "description": "Stagiaire, Formateur ou Entreprise",
+          "required": true
+        },
+        {
+          "name": "photo",
+          "type": "image",
+          "label": "Photo",
+          "description": "Photo de la personne (optionnelle)",
+          "required": false
+        },
+        {
+          "name": "date_temoignage",
+          "type": "date",
+          "label": "Date du Témoignage",
+          "description": "Date à laquelle le témoignage a été donné",
+          "required": false
+        },
+        {
+          "name": "ordre",
+          "type": "number",
+          "label": "Ordre d'Affichage",
+          "description": "Position dans la liste des témoignages",
+          "required": false
+        },
+        {
+          "name": "approuve",
+          "type": "boolean",
+          "label": "Témoignage Approuvé",
+          "description": "Le témoignage est-il validé pour publication",
+          "required": true,
+          "default_value": false
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "label": "FAQ",
+      "description": "Questions fréquemment posées",
+      "allow_public_insert": false,
+      "fields": [
+        {
+          "name": "categorie",
+          "type": "text",
+          "label": "Catégorie",
+          "description": "Stagiaire ou Formateur",
+          "required": true
+        },
+        {
+          "name": "question",
+          "type": "text",
+          "label": "Question",
+          "description": "La question fréquemment posée",
+          "required": true
+        },
+        {
+          "name": "reponse",
+          "type": "rich_text",
+          "label": "Réponse",
+          "description": "Réponse détaillée à la question",
+          "required": true
+        },
+        {
+          "name": "mots_cles",
+          "type": "text",
+          "is_array": true,
+          "label": "Mots-Clés",
+          "description": "Mots-clés pour la recherche dans la FAQ",
+          "required": false
+        },
+        {
+          "name": "thematique",
+          "type": "text",
+          "label": "Sous-Thématique",
+          "description": "Financement, Documents, Délais, Obligations...",
+          "required": false
+        },
+        {
+          "name": "ordre",
+          "type": "number",
+          "label": "Ordre d'Affichage",
+          "description": "Position dans la liste des questions",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "label": "Question Active",
+          "description": "La question est-elle visible",
+          "required": true,
+          "default_value": true
+        }
+      ]
+    },
+    {
+      "name": "demandes_contact",
+      "label": "Demandes Contact",
+      "description": "Formulaires de contact des stagiaires et entreprises",
+      "allow_public_insert": true,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom de la personne",
+          "required": true
+        },
+        {
+          "name": "prenom",
+          "type": "text",
+          "label": "Prénom",
+          "description": "Prénom de la personne",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "label": "Email",
+          "description": "Adresse email de contact",
+          "required": true
+        },
+        {
+          "name": "telephone",
+          "type": "text",
+          "label": "Téléphone",
+          "description": "Numéro de téléphone",
+          "required": false
+        },
+        {
+          "name": "entreprise",
+          "type": "text",
+          "label": "Entreprise",
+          "description": "Nom de l'entreprise (si applicable)",
+          "required": false
+        },
+        {
+          "name": "formation_id",
+          "type": "text",
+          "label": "Formation d'Intérêt",
+          "description": "ID de la formation concernée (prérempli)",
+          "required": false
+        },
+        {
+          "name": "type_demande",
+          "type": "text",
+          "label": "Type de Demande",
+          "description": "Information, Inscription, Support qualité",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "rich_text",
+          "label": "Message",
+          "description": "Détails de la demande",
+          "required": true
+        },
+        {
+          "name": "statut",
+          "type": "text",
+          "label": "Statut",
+          "description": "Nouveau, En cours, Traité",
+          "required": true,
+          "default_value": "Nouveau"
+        },
+        {
+          "name": "priorite",
+          "type": "text",
+          "label": "Priorité",
+          "description": "Basse, Normale, Haute, Urgente",
+          "required": true,
+          "default_value": "Normale"
+        },
+        {
+          "name": "notes_internes",
+          "type": "rich_text",
+          "label": "Notes Internes",
+          "description": "Notes pour le suivi interne",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "adhesions_formateurs",
+      "label": "Adhésions Formateurs",
+      "description": "Demandes d'adhésion et d'informations des formateurs",
+      "allow_public_insert": true,
+      "fields": [
+        {
+          "name": "nom",
+          "type": "text",
+          "label": "Nom",
+          "description": "Nom du formateur",
+          "required": true
+        },
+        {
+          "name": "prenom",
+          "type": "text",
+          "label": "Prénom",
+          "description": "Prénom du formateur",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "label": "Email",
+          "description": "Adresse email professionnelle",
+          "required": true
+        },
+        {
+          "name": "telephone",
+          "type": "text",
+          "label": "Téléphone",
+          "description": "Numéro de téléphone professionnel",
+          "required": true
+        },
+        {
+          "name": "entreprise",
+          "type": "text",
+          "label": "Entreprise/Structure",
+          "description": "Nom de la structure du formateur",
+          "required": false
+        },
+        {
+          "name": "siret",
+          "type": "text",
+          "label": "SIRET",
+          "description": "Numéro SIRET de l'entreprise",
+          "required": false
+        },
+        {
+          "name": "specialites",
+          "type": "text",
+          "is_array": true,
+          "label": "Spécialités",
+          "description": "Domaines d'expertise du formateur",
+          "required": true
+        },
+        {
+          "name": "experience",
+          "type": "rich_text",
+          "label": "Expérience",
+          "description": "Description de l'expérience professionnelle",
+          "required": true
+        },
+        {
+          "name": "certifications_detenues",
+          "type": "text",
+          "is_array": true,
+          "label": "Certifications Détenues",
+          "description": "Certifications professionnelles actuelles",
+          "required": false
+        },
+        {
+          "name": "site_web",
+          "type": "url",
+          "label": "Site Web",
+          "description": "Site web ou portfolio professionnel",
+          "required": false
+        },
+        {
+          "name": "linkedin",
+          "type": "url",
+          "label": "LinkedIn",
+          "description": "Profil LinkedIn professionnel",
+          "required": false
+        },
+        {
+          "name": "type_demande",
+          "type": "text",
+          "label": "Type de Demande",
+          "description": "Adhésion ou Demande d'informations",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "rich_text",
+          "label": "Message",
+          "description": "Message ou questions du formateur",
+          "required": false
+        },
+        {
+          "name": "cv",
+          "type": "file",
+          "label": "CV",
+          "description": "CV du formateur (PDF)",
+          "required": false
+        },
+        {
+          "name": "statut",
+          "type": "text",
+          "label": "Statut",
+          "description": "Nouveau, En cours d'évaluation, Accepté, Refusé",
+          "required": true,
+          "default_value": "Nouveau"
+        },
+        {
+          "name": "notes_evaluation",
+          "type": "rich_text",
+          "label": "Notes d'Évaluation",
+          "description": "Notes internes pour l'évaluation de la candidature",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "sample_content": {
+    "thematiques": [
+      {
+        "nom": "Management et Leadership",
+        "slug": "management-leadership",
+        "description": "Formations dédiées au développement des compétences managériales et de leadership pour tous niveaux hiérarchiques",
+        "icone": "users",
+        "couleur": "#3B82F6",
+        "ordre": 1,
+        "active": true
+      },
+      {
+        "nom": "Communication Professionnelle",
+        "slug": "communication-professionnelle", 
+        "description": "Techniques de communication, prise de parole en public, négociation et relations interpersonnelles",
+        "icone": "message-circle",
+        "couleur": "#10B981",
+        "ordre": 2,
+        "active": true
+      },
+      {
+        "nom": "Informatique et Digital",
+        "slug": "informatique-digital",
+        "description": "Formations aux outils numériques, bureautique avancée, transformation digitale et cybersécurité",
+        "icone": "laptop",
+        "couleur": "#8B5CF6",
+        "ordre": 3,
+        "active": true
+      },
+      {
+        "nom": "Développement Personnel",
+        "slug": "developpement-personnel",
+        "description": "Gestion du stress, confiance en soi, organisation personnelle et équilibre vie professionnelle/privée",
+        "icone": "user",
+        "couleur": "#F59E0B",
+        "ordre": 4,
+        "active": true
+      }
+    ],
+    "financements": [
+      {
+        "nom": "CPF - Compte Personnel de Formation",
+        "slug": "cpf",
+        "description": "Le Compte Personnel de Formation permet à chaque individu d'acquérir des droits à la formation mobilisables tout au long de sa vie professionnelle",
+        "eligibilite": "<p>Toute personne active (salarié, demandeur d'emploi, travailleur indépendant) dispose automatiquement d'un CPF crédité annuellement.</p><ul><li>500€ par an pour les salariés à temps plein (800€ pour les non-qualifiés)</li><li>Plafond à 5000€ (8000€ pour les non-qualifiés)</li><li>Mobilisable sans accord de l'employeur</li></ul>",
+        "processus": "<p>Démarche 100% dématérialisée :</p><ol><li>Création de compte sur moncompteformation.gouv.fr</li><li>Recherche de formation éligible CPF</li><li>Inscription directe en ligne</li><li>Validation automatique si solde suffisant</li></ol>",
+        "logo": {
+          "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Logo CPF - Compte Personnel de Formation",
+          "mime_type": "image/jpeg"
+        },
+        "site_officiel": "https://www.moncompteformation.gouv.fr",
+        "actif": true
+      },
+      {
+        "nom": "OPCO - Opérateurs de Compétences",
+        "slug": "opco",
+        "description": "Les OPCO financent la formation professionnelle continue des entreprises de leur secteur d'activité",
+        "eligibilite": "<p>Entreprises cotisant auprès d'un OPCO selon leur secteur d'activité :</p><ul><li>Entreprises de moins de 50 salariés : prise en charge renforcée</li><li>Formations en rapport avec l'activité professionnelle</li><li>Respect des critères qualité OPCO</li></ul>",
+        "processus": "<p>Démarche d'entreprise :</p><ol><li>Identification de l'OPCO de l'entreprise</li><li>Demande de financement préalable</li><li>Accord OPCO avant démarrage formation</li><li>Justificatifs à fournir post-formation</li></ol>",
+        "logo": {
+          "url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Logo OPCO - Formation professionnelle entreprises", 
+          "mime_type": "image/jpeg"
+        },
+        "site_officiel": "https://www.francecompetences.fr",
+        "actif": true
+      },
+      {
+        "nom": "Pôle Emploi - AIF",
+        "slug": "pole-emploi-aif",
+        "description": "L'Aide Individuelle à la Formation (AIF) finance les formations des demandeurs d'emploi dans le cadre de leur projet professionnel",
+        "eligibilite": "<p>Demandeurs d'emploi inscrits à Pôle Emploi :</p><ul><li>Formation validée par le conseiller Pôle Emploi</li><li>Projet professionnel défini et cohérent</li><li>Absence d'autre financement possible</li></ul>",
+        "processus": "<p>Accompagnement personnalisé :</p><ol><li>Entretien avec conseiller Pôle Emploi</li><li>Validation du projet professionnel</li><li>Demande AIF via espace personnel</li><li>Accord préalable obligatoire</li></ol>",
+        "logo": {
+          "url": "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Logo Pôle Emploi formation professionnelle",
+          "mime_type": "image/jpeg"
+        },
+        "site_officiel": "https://www.pole-emploi.fr",
+        "actif": true
+      }
+    ],
+    "certifications": [
+      {
+        "nom": "Certification Qualiopi",
+        "description": "<p>La certification qualité Qualiopi atteste de la qualité du processus mis en œuvre par les prestataires d'actions concourant au développement des compétences.</p><p>Elle est obligatoire pour tous les organismes souhaitant accéder aux financements publics et mutualisés (CPF, OPCO, Pôle Emploi, etc.).</p>",
+        "logo": {
+          "url": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Certification Qualiopi qualité formation",
+          "mime_type": "image/jpeg"
+        },
+        "organisme_certificateur": "Organismes certificateurs accrédités par le COFRAC",
+        "date_obtention": "2023-01-15",
+        "date_expiration": "2026-01-15",
+        "numero_certification": "QUAL-2023-001-FR",
+        "ordre": 1,
+        "active": true
+      },
+      {
+        "nom": "Audit Véritas Bureau Veritas",
+        "description": "<p>Audit qualité externe réalisé par Bureau Veritas, leader mondial de l'inspection, de la certification et des essais.</p><p>Cet audit valide notre conformité aux exigences qualité les plus strictes du secteur de la formation professionnelle.</p>",
+        "logo": {
+          "url": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Audit Bureau Veritas certification qualité",
+          "mime_type": "image/jpeg"
+        },
+        "organisme_certificateur": "Bureau Veritas Certification France",
+        "date_obtention": "2023-06-20",
+        "numero_certification": "BV-AUDIT-2023-789",
+        "ordre": 2,
+        "active": true
+      }
+    ],
+    "formateurs": [
+      {
+        "nom": "Marie Dubois",
+        "slug": "marie-dubois",
+        "bio": "<p>Consultante en management avec 15 ans d'expérience dans l'accompagnement des équipes et la transformation organisationnelle.</p><p>Ancienne DRH dans le secteur bancaire, Marie apporte une expertise terrain reconnue en développement du leadership et gestion du changement.</p>",
+        "logo_photo": {
+          "url": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Marie Dubois - Formatrice Management et Leadership",
+          "mime_type": "image/jpeg"
+        },
+        "specialites": ["Management d'équipe", "Leadership transformationnel", "Gestion du changement", "Communication managériale"],
+        "certifications": ["Certification Coach ICC", "Master RH", "Certification Process Communication Model"],
+        "email_contact": "marie.dubois@syloma-formation.fr",
+        "linkedin": "https://linkedin.com/in/marie-dubois-consultant",
+        "experience_annees": 15,
+        "actif": true
+      },
+      {
+        "nom": "Thomas Martin",
+        "slug": "thomas-martin",
+        "bio": "<p>Expert en transformation digitale et cybersécurité, Thomas accompagne les entreprises dans leur digitalisation depuis plus de 12 ans.</p><p>Ingénieur de formation, il maîtrise l'ensemble des enjeux techniques et humains de la transformation numérique.</p>",
+        "logo_photo": {
+          "url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Thomas Martin - Formateur Digital et Cybersécurité",
+          "mime_type": "image/jpeg"
+        },
+        "specialites": ["Transformation digitale", "Cybersécurité", "Bureautique avancée", "Accompagnement au changement numérique"],
+        "certifications": ["CISSP", "Ingénieur CNAM", "Certification Microsoft Office Specialist Master"],
+        "email_contact": "thomas.martin@syloma-formation.fr",
+        "site_web": "https://thomas-martin-conseil.fr",
+        "linkedin": "https://linkedin.com/in/thomas-martin-digital",
+        "experience_annees": 12,
+        "actif": true
+      },
+      {
+        "nom": "Sophie Lefebvre",
+        "slug": "sophie-lefebvre",
+        "bio": "<p>Psychologue du travail et coach certifiée, Sophie se spécialise dans le développement personnel et professionnel.</p><p>Elle accompagne individus et organisations dans l'amélioration du bien-être au travail et l'optimisation des performances.</p>",
+        "logo_photo": {
+          "url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Sophie Lefebvre - Formatrice Développement Personnel",
+          "mime_type": "image/jpeg"
+        },
+        "specialites": ["Développement personnel", "Gestion du stress", "Communication interpersonnelle", "Équilibre vie professionnelle/privée"],
+        "certifications": ["Master Psychologie du Travail", "Certification Coach PCC ICF", "Praticienne PNL"],
+        "email_contact": "sophie.lefebvre@syloma-formation.fr",
+        "telephone": "06.12.34.56.78",
+        "linkedin": "https://linkedin.com/in/sophie-lefebvre-coach",
+        "experience_annees": 10,
+        "actif": true
+      }
+    ],
+    "formations": [
+      {
+        "titre": "Leadership et Management d'Équipe",
+        "slug": "leadership-management-equipe",
+        "accroche": "Développez vos compétences de leader pour motiver et fédérer vos équipes autour d'objectifs communs",
+        "objectifs_pedagogiques": "<ul><li>Comprendre les fondamentaux du leadership moderne</li><li>Maîtriser les techniques de motivation d'équipe</li><li>Développer son style de management adaptatif</li><li>Gérer les conflits et les situations difficiles</li><li>Conduire le changement efficacement</li></ul>",
+        "public_vise": "Managers, chefs d'équipe, futurs managers et toute personne amenée à encadrer une équipe",
+        "prerequis": "<p>Aucun prérequis technique. Une première expérience d'encadrement est un plus mais non obligatoire.</p>",
+        "programme_detaille": "<h3>Module 1: Fondamentaux du Leadership (2 jours)</h3><ul><li>Les différents styles de leadership</li><li>Leadership vs Management</li><li>Développer sa posture de leader</li><li>Communication assertive</li></ul><h3>Module 2: Management d'Équipe (2 jours)</h3><ul><li>Techniques de motivation</li><li>Délégation efficace</li><li>Conduite de réunions</li><li>Évaluation des performances</li></ul><h3>Module 3: Gestion des Situations Difficiles (1 jour)</h3><ul><li>Résolution de conflits</li><li>Gestion du stress d'équipe</li><li>Conduite du changement</li></ul>",
+        "methodes_mobilisees": "<ul><li>Alternance théorie/pratique (70% pratique)</li><li>Études de cas réels</li><li>Jeux de rôles et mises en situation</li><li>Autodiagnostic et tests de personnalité</li><li>Échanges d'expériences entre participants</li></ul>",
+        "duree": "5 jours (35 heures)",
+        "rythme": "5 jours consécutifs ou 2+2+1 jours sur 6 semaines",
+        "lieu": "Présentiel en inter-entreprises (Parisiens) ou intra-entreprise sur site client",
+        "accessibilite": "<p>Locaux accessibles aux personnes à mobilité réduite. Adaptation possible des supports pour malvoyants/malentendants sur demande. Référent handicap disponible.</p>",
+        "modalites_evaluation": "<ul><li>Quiz de connaissances en fin de formation</li><li>Mise en situation pratique évaluée</li><li>Plan d'action personnalisé à 3 mois</li><li>Attestation de formation remise</li></ul>",
+        "niveau": "Intermédiaire",
+        "modalites": ["Présentiel", "Intra-entreprise"],
+        "prix": {
+          "amount": 2400,
+          "currency": "EUR"
+        },
+        "formateur_id": "1",
+        "thematique_id": "1",
+        "financements_eligibles": ["1", "2"],
+        "image_principale": {
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Formation Leadership et Management d'Équipe",
+          "mime_type": "image/jpeg"
+        },
+        "active": true
+      },
+      {
+        "titre": "Communication Professionnelle et Prise de Parole",
+        "slug": "communication-professionnelle-prise-parole",
+        "accroche": "Maîtrisez l'art de la communication pour convaincre, négocier et présenter avec impact",
+        "objectifs_pedagogiques": "<ul><li>Structurer ses messages pour plus d'impact</li><li>Adapter sa communication à son interlocuteur</li><li>Maîtriser la prise de parole en public</li><li>Gérer son stress lors des présentations</li><li>Développer son charisme et sa présence</li></ul>",
+        "public_vise": "Tout professionnel amené à communiquer en interne ou externe, présenter des projets, négocier",
+        "prerequis": "<p>Aucun prérequis. Formation accessible à tous niveaux.</p>",
+        "programme_detaille": "<h3>Jour 1: Fondamentaux de la Communication</h3><ul><li>Les mécanismes de la communication</li><li>Communication verbale et non-verbale</li><li>Écoute active et empathie</li><li>Adapter son message à son public</li></ul><h3>Jour 2: Prise de Parole en Public</h3><ul><li>Préparation et structuration d'une présentation</li><li>Gestion du stress et du trac</li><li>Utilisation des supports visuels</li><li>Interaction avec l'audience</li></ul><h3>Jour 3: Communication Persuasive</h3><ul><li>Techniques d'argumentation</li><li>Négociation gagnant-gagnant</li><li>Gestion des objections</li><li>Communication de crise</li></ul>",
+        "methodes_mobilisees": "<ul><li>Exercices pratiques filmés</li><li>Débriefing individualisé</li><li>Techniques théâtrales</li><li>Entraînement intensif à la prise de parole</li><li>Feedback bienveillant du groupe</li></ul>",
+        "duree": "3 jours (21 heures)",
+        "rythme": "3 jours consécutifs ou 1 jour par mois sur 3 mois",
+        "lieu": "Présentiel en inter-entreprises ou distanciel en classe virtuelle",
+        "accessibilite": "<p>Formation accessible en ligne pour personnes à mobilité réduite. Sous-titrage disponible en classe virtuelle.</p>",
+        "modalites_evaluation": "<ul><li>Présentations individuelles évaluées</li><li>Grilles d'auto-évaluation</li><li>Exercices de mise en situation</li><li>Certificat de réalisation</li></ul>",
+        "niveau": "Débutant",
+        "modalites": ["Présentiel", "Distanciel"],
+        "prix": {
+          "amount": 1800,
+          "currency": "EUR"
+        },
+        "formateur_id": "3",
+        "thematique_id": "2",
+        "financements_eligibles": ["1", "2", "3"],
+        "image_principale": {
+          "url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Formation Communication Professionnelle et Prise de Parole",
+          "mime_type": "image/jpeg"
+        },
+        "active": true
+      },
+      {
+        "titre": "Cybersécurité et Protection des Données",
+        "slug": "cybersecurite-protection-donnees",
+        "accroche": "Protégez votre entreprise contre les menaces cyber et maîtrisez la conformité RGPD",
+        "objectifs_pedagogiques": "<ul><li>Identifier les principales menaces cybersécurité</li><li>Mettre en place des mesures de protection efficaces</li><li>Comprendre et appliquer le RGPD</li><li>Sensibiliser ses équipes aux bonnes pratiques</li><li>Réagir efficacement en cas d'incident</li></ul>",
+        "public_vise": "Responsables informatiques, DSI, chefs d'entreprise, DPO, toute personne en charge de la sécurité des données",
+        "prerequis": "<p>Connaissances de base en informatique. Une expérience professionnelle en gestion de données est recommandée.</p>",
+        "programme_detaille": "<h3>Module 1: Paysage des Menaces (1 jour)</h3><ul><li>Typologie des cyberattaques</li><li>Phishing, ransomware, malware</li><li>Ingénierie sociale</li><li>Analyse de cas réels</li></ul><h3>Module 2: Mesures de Protection (1,5 jour)</h3><ul><li>Sécurisation des postes de travail</li><li>Gestion des accès et authentification</li><li>Sauvegarde et plan de continuité</li><li>Sensibilisation des utilisateurs</li></ul><h3>Module 3: RGPD et Conformité (1,5 jour)</h3><ul><li>Principes fondamentaux du RGPD</li><li>Cartographie des traitements</li><li>Droits des personnes</li><li>Gestion des violations de données</li></ul>",
+        "methodes_mobilisees": "<ul><li>Démonstrations techniques en live</li><li>Ateliers pratiques de configuration</li><li>Simulation d'attaques en laboratoire</li><li>Études de cas sectoriels</li><li>Outils d'audit fournis</li></ul>",
+        "duree": "4 jours (28 heures)",
+        "rythme": "2 sessions de 2 jours espacées de 15 jours",
+        "lieu": "Présentiel obligatoire pour les ateliers pratiques - Centre de formation équipé",
+        "accessibilite": "<p>Laboratoire informatique accessible PMR. Aide technique disponible pour déficients visuels.</p>",
+        "modalites_evaluation": "<ul><li>QCM de validation des connaissances</li><li>Exercices pratiques de configuration</li><li>Audit sécurité d'entreprise fictive</li><li>Certification professionnelle délivrée</li></ul>",
+        "niveau": "Avancé",
+        "modalites": ["Présentiel"],
+        "prix": {
+          "amount": 3200,
+          "currency": "EUR"
+        },
+        "formateur_id": "2",
+        "thematique_id": "3",
+        "financements_eligibles": ["1", "2"],
+        "image_principale": {
+          "url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Formation Cybersécurité et Protection des Données",
+          "mime_type": "image/jpeg"
+        },
+        "active": true
+      },
+      {
+        "titre": "Gestion du Stress et Bien-Être au Travail",
+        "slug": "gestion-stress-bien-etre-travail",
+        "accroche": "Développez vos ressources personnelles pour mieux gérer le stress et améliorer votre qualité de vie professionnelle",
+        "objectifs_pedagogiques": "<ul><li>Comprendre les mécanismes du stress</li><li>Identifier ses facteurs de stress personnels</li><li>Acquérir des techniques de gestion du stress</li><li>Améliorer son équilibre vie professionnelle/privée</li><li>Développer sa résilience</li></ul>",
+        "public_vise": "Tout professionnel souhaitant mieux gérer son stress, améliorer son bien-être et optimiser ses performances",
+        "prerequis": "<p>Aucun prérequis. Formation ouverte à tous.</p>",
+        "programme_detaille": "<h3>Jour 1: Comprendre le Stress</h3><ul><li>Physiologie et psychologie du stress</li><li>Stress positif vs stress négatif</li><li>Auto-diagnostic de son niveau de stress</li><li>Identification de ses facteurs de stress</li></ul><h3>Jour 2: Techniques de Gestion</h3><ul><li>Techniques de respiration et relaxation</li><li>Gestion du temps et des priorités</li><li>Communication assertive</li><li>Lâcher-prise et acceptation</li></ul><h3>Jour 3: Équilibre et Prévention</h3><ul><li>Équilibre vie professionnelle/privée</li><li>Hygiène de vie et habitudes saines</li><li>Développement de la résilience</li><li>Plan d'action personnel</li></ul>",
+        "methodes_mobilisees": "<ul><li>Exercices de relaxation guidée</li><li>Techniques de méditation pleine conscience</li><li>Ateliers créatifs anti-stress</li><li>Partage d'expériences en groupe</li><li>Outils pratiques emportables</li></ul>",
+        "duree": "3 jours (21 heures)",
+        "rythme": "3 jours non consécutifs sur 6 semaines pour intégration progressive",
+        "lieu": "Présentiel dans un environnement calme ou distanciel selon préférence",
+        "accessibilite": "<p>Environnement adapté aux personnes sensibles. Possibilité d'adaptation pour tout handicap.</p>",
+        "modalites_evaluation": "<ul><li>Auto-évaluation de progression</li><li>Mise en pratique des techniques</li><li>Élaboration d'un plan d'action personnalisé</li><li>Attestation de participation</li></ul>",
+        "niveau": "Débutant", 
+        "modalites": ["Présentiel", "Distanciel"],
+        "prix": {
+          "amount": 1600,
+          "currency": "EUR"
+        },
+        "formateur_id": "3",
+        "thematique_id": "4",
+        "financements_eligibles": ["1", "2", "3"],
+        "image_principale": {
+          "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Formation Gestion du Stress et Bien-Être au Travail",
+          "mime_type": "image/jpeg"
+        },
+        "active": true
+      }
+    ],
+    "temoignages": [
+      {
+        "nom": "Jean-Pierre Moreau",
+        "entreprise": "Société Technique Industrielle",
+        "poste": "Directeur des Opérations",
+        "formation_suivie": "Leadership et Management d'Équipe",
+        "temoignage": "<p>Formation exceptionnelle qui m'a permis de transformer ma posture managériale. Les outils pratiques sont immédiatement applicables et les résultats sur mon équipe sont visibles dès les premières semaines.</p><p>Marie Dubois est une formatrice d'exception qui sait adapter ses conseils à chaque situation. Je recommande vivement cette formation à tout manager souhaitant évoluer.</p>",
+        "note": 5,
+        "type": "Stagiaire",
+        "photo": {
+          "url": "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Jean-Pierre Moreau - Directeur des Opérations",
+          "mime_type": "image/jpeg"
+        },
+        "date_temoignage": "2024-09-15",
+        "ordre": 1,
+        "approuve": true
+      },
+      {
+        "nom": "Sarah Dubois",
+        "entreprise": "Cabinet RH Solutions",
+        "poste": "Consultante RH",
+        "formation_suivie": "Communication Professionnelle et Prise de Parole",
+        "temoignage": "<p>En tant que consultante, mes interventions client sont au cœur de mon métier. Cette formation m'a apporté la confiance et les techniques pour présenter avec impact et conviction.</p><p>L'approche pratique avec les mises en situation filmées est très enrichissante. Un vrai plus pour mon développement professionnel.</p>",
+        "note": 5,
+        "type": "Stagiaire",
+        "photo": {
+          "url": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Sarah Dubois - Consultante RH",
+          "mime_type": "image/jpeg"
+        },
+        "date_temoignage": "2024-08-22",
+        "ordre": 2,
+        "approuve": true
+      },
+      {
+        "nom": "Marc Fontaine",
+        "entreprise": "Expert Digital Indépendant",
+        "poste": "Formateur",
+        "type": "Formateur",
+        "temoignage": "<p>Syloma m'offre un cadre professionnel exceptionnel pour exercer mon activité de formation. La certification Qualiopi sans la lourdeur administrative, c'est exactement ce que je recherchais.</p><p>L'équipe est réactive et professionnelle. Je peux me concentrer sur mon cœur de métier : transmettre mes compétences à mes stagiaires.</p>",
+        "note": 5,
+        "photo": {
+          "url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          "alt_text": "Marc Fontaine - Formateur Digital",
+          "mime_type": "image/jpeg"
+        },
+        "date_temoignage": "2024-07-10",
+        "ordre": 3,
+        "approuve": true
+      }
+    ],
+    "faq": [
+      {
+        "categorie": "Stagiaire",
+        "question": "Comment puis-je utiliser mon CPF pour financer ma formation ?",
+        "reponse": "<p>L'utilisation de votre CPF est très simple :</p><ol><li>Rendez-vous sur <strong>moncompteformation.gouv.fr</strong></li><li>Créez votre compte avec vos identifiants France Connect</li><li>Recherchez la formation Syloma qui vous intéresse</li><li>Vérifiez votre solde CPF disponible</li><li>Inscrivez-vous directement en ligne</li></ol><p>Si votre solde est insuffisant, vous pouvez compléter par un financement personnel ou demander un abondement à votre employeur.</p><p><strong>Bon à savoir :</strong> Toutes nos formations sont éligibles CPF et certifiantes.</p>",
+        "mots_cles": ["CPF", "financement", "inscription", "compte personnel formation"],
+        "thematique": "Financement",
+        "ordre": 1,
+        "active": true
+      },
+      {
+        "categorie": "Stagiaire",
+        "question": "Quels documents vais-je recevoir à l'issue de ma formation ?",
+        "reponse": "<p>À l'issue de votre formation, vous recevrez :</p><ul><li><strong>Une attestation de formation</strong> mentionnant les compétences acquises</li><li><strong>Un certificat de réalisation</strong> pour justifier de votre assiduité</li><li><strong>Une évaluation détaillée</strong> de vos acquis</li><li><strong>Les supports pédagogiques</strong> au format numérique</li></ul><p>Pour les formations certifiantes, vous recevrez également votre <strong>certificat professionnel</strong> dans un délai de 15 jours.</p><p>Tous ces documents sont nécessaires pour justifier de votre formation auprès de votre employeur ou des organismes financeurs.</p>",
+        "mots_cles": ["attestation", "certificat", "documents", "justificatifs"],
+        "thematique": "Documents",
+        "ordre": 2,
+        "active": true
+      },
+      {
+        "categorie": "Stagiaire",
+        "question": "Dans quels délais dois-je m'inscrire avant le début de la formation ?",
+        "reponse": "<p>Les délais d'inscription varient selon le mode de financement :</p><ul><li><strong>Financement CPF :</strong> 11 jours ouvrables minimum avant le début</li><li><strong>Financement OPCO :</strong> 3 à 4 semaines selon l'organisme</li><li><strong>Financement Pôle Emploi :</strong> 15 jours minimum</li><li><strong>Financement personnel :</strong> 48h minimum</li></ul><p><strong>Conseil :</strong> Nous recommandons de vous y prendre <strong>3 à 4 semaines à l'avance</strong> pour être sûr(e) d'obtenir votre place et finaliser les démarches administratives sereinement.</p><p>Pour les formations intra-entreprise, comptez 6 à 8 semaines pour l'organisation.</p>",
+        "mots_cles": ["délais", "inscription", "timing", "planning"],
+        "thematique": "Délais",
+        "ordre": 3,
+        "active": true
+      },
+      {
+        "categorie": "Formateur",
+        "question": "Quels sont les avantages de rejoindre Syloma comme formateur ?",
+        "reponse": "<p>En rejoignant Syloma, vous bénéficiez de nombreux avantages :</p><ul><li><strong>Certification Qualiopi</strong> : Profitez de notre certification sans la charge administrative</li><li><strong>Accès aux financements :</strong> CPF, OPCO, Pôle Emploi automatiquement accessibles</li><li><strong>Gestion simplifiée :</strong> Nous nous occupons des conventions, facturations et suivis</li><li><strong>Support qualité :</strong> Accompagnement documentaire et conformité</li><li><strong>Réseau professionnel :</strong> Accès à notre communauté de formateurs experts</li><li><strong>Optimisation fiscale :</strong> TVA exonérée, statut favorable</li></ul><p>Vous restez <strong>totalement autonome</strong> dans votre prospection commerciale et la définition de vos tarifs.</p>",
+        "mots_cles": ["avantages", "qualiopi", "financement", "simplicité"],
+        "thematique": "Avantages",
+        "ordre": 1,
+        "active": true
+      },
+      {
+        "categorie": "Formateur",
+        "question": "Comment fonctionne le processus de facturation avec Syloma ?",
+        "reponse": "<p>Le processus de facturation est simple et transparent :</p><ol><li><strong>Vous trouvez vos clients</strong> et négociez vos conditions</li><li><strong>Syloma édite la convention</strong> de formation avec le client</li><li><strong>Vous dispensez votre formation</strong> selon vos méthodes</li><li><strong>Syloma facture le client final</strong> (entreprise, OPCO, etc.)</li><li><strong>Vous nous refacturez</strong> votre prestation HT</li><li><strong>Syloma vous règle</strong> sous 30 jours</li></ol><p><strong>Avantage :</strong> Vous n'avez aucune gestion administrative des dossiers de financement, nous nous en chargeons entièrement.</p><p><strong>Commission Syloma :</strong> Nos frais de gestion transparent sont communiqués dès l'adhésion.</p>",
+        "mots_cles": ["facturation", "processus", "commission", "règlement"],
+        "thematique": "Processus",
+        "ordre": 2,
+        "active": true
+      },
+      {
+        "categorie": "Formateur",
+        "question": "Quelles sont mes obligations en tant que formateur partenaire ?",
+        "reponse": "<p>Vos principales obligations sont :</p><ul><li><strong>Qualité pédagogique :</strong> Respecter notre charte qualité et les standards Qualiopi</li><li><strong>Assiduité :</strong> Être présent aux formations programmées et respecter les horaires</li><li><strong>Documentation :</strong> Fournir les supports pédagogiques et feuilles d'émargement</li><li><strong>Évaluation :</strong> Évaluer les acquis des stagiaires selon notre méthodologie</li><li><strong>Reporting :</strong> Transmettre les bilans de formation dans les délais</li><li><strong>Confidentialité :</strong> Respecter la confidentialité des informations clients</li></ul><p><strong>Accompagnement :</strong> Notre équipe vous forme à nos processus et vous accompagne tout au long de votre activité.</p><p>Un <strong>référent qualité dédié</strong> est à votre disposition pour toute question.</p>",
+        "mots_cles": ["obligations", "qualité", "processus", "accompagnement"],
+        "thematique": "Obligations",
+        "ordre": 3,
+        "active": true
+      }
+    ]
+  }
+}
