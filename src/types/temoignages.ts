@@ -8,7 +8,7 @@ export interface Temoignage extends CMSItem {
   temoignage: string;
   note?: number;
   type: string;
-  photo: CMSMedia;
+  photo?: CMSMedia;
   date_temoignage?: string;
   ordre?: number;
   approuve: boolean;
