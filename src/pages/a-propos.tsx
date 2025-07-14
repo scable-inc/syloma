@@ -243,7 +243,7 @@ const AboutPage = ({ initialCertifications, initialTestimonials }: AboutPageProp
                   </p>
                   <p>
                     Nous nous occupons de toute la complexité administrative - certifications, financements, 
-                    conformité - pour que vous puissiez vous concentrer sur l'essentiel : apprendre et transmettre.
+                    conformité - pour que vous puissiez vous concentrer sur l&apos;essentiel : apprendre et transmettre.
                   </p>
                 </div>
 
