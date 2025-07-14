@@ -14,8 +14,8 @@ import ContactForm from '@/components/formations/ContactForm';
 
 interface FormationDetailPageProps {
   formation: Formation;
-  formateur: Formateur;
-  thematique: Thematique;
+  formateur: Formateur | null;
+  thematique: Thematique | null;
   financements: Financement[];
   formationsSimilaires: Formation[];
 }
