@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Formation, Formateur, Thematique, Financement } from '@/types/formations';
+import { Formation, Formateur, Thematique } from '@/types/formations';
+import { Financement } from '@/types/financements';
 import { useCMSData, getCMSData, getCMSItem } from '@/hooks/use-data';
 import ContactForm from '@/components/formations/ContactForm';
 
