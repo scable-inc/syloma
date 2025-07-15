@@ -52,7 +52,7 @@ const FAQPage = ({ initialFaqs }: FAQPageProps) => {
   }, {} as Record<string, FAQ[]>);
 
   // Thématiques disponibles
-  const availableThemes = [...new Set(filteredByCategory.map(faq => faq.thematique || 'Général'))];
+  const availableThemes = Array.from(new Set(filteredByCategory.map(faq => faq.thematique || 'Général')));
 
   const toggleItem = (id: string) => {
     setExpandedItems(prev => 
