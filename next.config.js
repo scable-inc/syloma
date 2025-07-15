@@ -7,120 +7,93 @@ const nextConfig = {
   },
   reactStrictMode: true,
   
-  // Experimental features that can cause memory issues - disabled
+  // Configuration pour éviter les problèmes de mémoire
   experimental: {
-    // Disable worker threads that can cause bus errors
+    // Désactivation complète des fonctionnalités expérimentales
     workerThreads: false,
-    // Limit CPU usage to prevent overload
     cpus: 1,
-    // Disable potentially problematic features
     esmExternals: false,
+    forceSwcTransforms: false,
   },
   
-  // Webpack optimization to prevent memory issues
-  webpack: (config, { dev, isServer, webpack }) => {
-    // Only apply optimizations in production
-    if (!dev) {
-      // Reduce memory pressure
+  // Configuration webpack simplifiée pour réduire la charge mémoire
+  webpack: (config, { dev, isServer }) => {
+    // Désactiver la parallélisation pour éviter les bus errors
+    config.parallelism = 1;
+    
+    // Simplifier l'optimisation uniquement en production
+    if (!dev && !isServer) {
       config.optimization = {
         ...config.optimization,
         splitChunks: {
           chunks: 'all',
-          minSize: 20000,
-          maxSize: 150000,
-          minChunks: 1,
-          maxAsyncRequests: 30,
-          maxInitialRequests: 30,
+          minSize: 10000,
+          maxSize: 100000,
           cacheGroups: {
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
-            },
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
-              priority: -10,
-              reuseExistingChunk: true,
               chunks: 'all',
             },
           },
         },
-        // Minimize memory usage during minimization
-        minimizer: config.optimization.minimizer?.map(minimizer => {
-          if (minimizer.constructor.name === 'TerserPlugin') {
-            minimizer.options = {
-              ...minimizer.options,
-              parallel: false, // Disable parallel processing to reduce memory
-              terserOptions: {
-                ...minimizer.options?.terserOptions,
-                compress: {
-                  ...minimizer.options?.terserOptions?.compress,
-                  // Reduce compression complexity
-                  passes: 1,
-                },
-              },
-            };
-          }
-          return minimizer;
-        }),
       };
-
-      // Reduce chunk size to prevent memory issues
-      config.resolve.alias = {
-        ...config.resolve.alias,
-      };
-
-      // Add memory limit plugin
-      config.plugins.push(
-        new webpack.DefinePlugin({
-          'process.env.NODE_OPTIONS': JSON.stringify('--max-old-space-size=4096'),
-        })
-      );
     }
 
-    // Limit bundle analyzer and other high-memory plugins
+    // Réduire la verbosité et la charge des plugins
     config.plugins = config.plugins.filter(plugin => {
-      return !plugin.constructor.name.includes('BundleAnalyzer');
+      const name = plugin.constructor.name;
+      return !name.includes('BundleAnalyzer') && !name.includes('ProgressPlugin');
     });
+
+    // Configuration de cache plus conservative
+    config.cache = {
+      type: 'memory',
+      maxGenerations: 1,
+    };
 
     return config;
   },
 
-  // Disable source maps in production to reduce memory usage
+  // Désactiver les source maps complètement
   productionBrowserSourceMaps: false,
   
-  // Compiler optimizations
+  // Configuration du compilateur
   compiler: {
-    // Remove console logs in production to reduce bundle size
     removeConsole: process.env.NODE_ENV === 'production',
-    // Disable react refresh in production
-    reactRemoveProperties: process.env.NODE_ENV === 'production',
+    reactRemoveProperties: false, // Désactivé pour éviter les problèmes
   },
 
-  // Reduce build complexity
+  // Utilisation du minificateur SWC plus léger
   swcMinify: true,
   
-  // Disable features that can cause issues
+  // Désactiver ESLint pendant le build
   eslint: {
     ignoreDuringBuilds: true,
   },
+  
+  // Configuration TypeScript plus permissive
   typescript: {
     ignoreBuildErrors: false,
   },
 
-  // Optimize static optimization
-  staticPageGenerationTimeout: 180,
+  // Timeout plus long pour la génération statique
+  staticPageGenerationTimeout: 300,
   
-  // Prevent memory leaks
+  // Limiter les entrées simultanées
   onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 1,
   },
 
-  // Reduce concurrent operations
+  // ID de build simple
   generateBuildId: async () => {
-    return 'syloma-build-' + Date.now();
+    return 'syloma-' + Date.now().toString();
+  },
+
+  // Variables d'environnement pour Node.js
+  env: {
+    NODE_OPTIONS: '--max-old-space-size=8192 --max-semi-space-size=1024',
   },
 };
 
