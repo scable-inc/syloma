@@ -575,7 +575,7 @@ const AboutPage = ({ initialCertifications, initialTestimonials }: AboutPageProp
                           <Star 
                             key={i}
                             className={`w-4 h-4 ${
-                              i < testimonial.note ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                              i < (testimonial.note || 0) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
                             }`}
                           />
                         ))}
