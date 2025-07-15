@@ -7,94 +7,104 @@ const nextConfig = {
   },
   reactStrictMode: true,
   
-  // Configuration pour éviter les problèmes de mémoire
+  // Configuration pour éviter les bus errors
   experimental: {
     // Désactivation complète des fonctionnalités expérimentales
     workerThreads: false,
     cpus: 1,
     esmExternals: false,
     forceSwcTransforms: false,
+    // Désactiver les features qui causent des problèmes mémoire
+    optimizePackageImports: false,
+    turbo: false,
   },
   
-  // Configuration webpack simplifiée pour réduire la charge mémoire
+  // Configuration webpack ultra-conservative pour éviter les bus errors
   webpack: (config, { dev, isServer }) => {
-    // Désactiver la parallélisation pour éviter les bus errors
+    // Désactiver complètement la parallélisation
     config.parallelism = 1;
     
-    // Simplifier l'optimisation uniquement en production
-    if (!dev && !isServer) {
+    // Limiter la taille des chunks et désactiver l'optimisation agressive
+    if (!dev) {
       config.optimization = {
         ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          minSize: 10000,
-          maxSize: 100000,
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
-          },
-        },
+        minimize: false, // Désactiver la minification qui cause des bus errors
+        splitChunks: false, // Désactiver le split des chunks
+        concatenateModules: false,
+        usedExports: false,
+        sideEffects: false,
       };
     }
 
-    // Réduire la verbosité et la charge des plugins
+    // Supprimer tous les plugins non essentiels qui peuvent causer des problèmes
     config.plugins = config.plugins.filter(plugin => {
       const name = plugin.constructor.name;
-      return !name.includes('BundleAnalyzer') && !name.includes('ProgressPlugin');
+      return !name.includes('BundleAnalyzer') && 
+             !name.includes('ProgressPlugin') &&
+             !name.includes('CompressionPlugin') &&
+             !name.includes('TerserPlugin');
     });
 
-    // Configuration de cache plus conservative
-    config.cache = {
-      type: 'memory',
-      maxGenerations: 1,
+    // Configuration de cache très conservative
+    config.cache = false; // Désactiver complètement le cache
+
+    // Limiter la résolution des modules
+    config.resolve = {
+      ...config.resolve,
+      symlinks: false,
     };
 
     return config;
   },
 
-  // Désactiver les source maps complètement
+  // Désactiver toutes les optimisations qui peuvent causer des bus errors
   productionBrowserSourceMaps: false,
   
-  // Configuration du compilateur
+  // Configuration du compilateur ultra-conservative
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-    reactRemoveProperties: false, // Désactivé pour éviter les problèmes
+    removeConsole: false, // Désactivé pour éviter les problèmes
+    reactRemoveProperties: false,
   },
 
-  // Utilisation du minificateur SWC plus léger
-  swcMinify: true,
+  // Désactiver SWC qui peut causer des bus errors
+  swcMinify: false,
   
   // Désactiver ESLint pendant le build
   eslint: {
     ignoreDuringBuilds: true,
   },
   
-  // Configuration TypeScript plus permissive
+  // Configuration TypeScript permissive
   typescript: {
     ignoreBuildErrors: false,
   },
 
-  // Timeout plus long pour la génération statique
-  staticPageGenerationTimeout: 300,
+  // Timeout très long pour éviter les timeouts
+  staticPageGenerationTimeout: 600,
   
-  // Limiter les entrées simultanées
+  // Limiter drastiquement les entrées simultanées
   onDemandEntries: {
     maxInactiveAge: 60 * 1000,
     pagesBufferLength: 1,
   },
 
-  // ID de build simple
+  // ID de build très simple
   generateBuildId: async () => {
-    return 'syloma-' + Date.now().toString();
+    return 'build-' + Math.random().toString(36).substr(2, 9);
   },
 
-  // Variables d'environnement pour Node.js
+  // Configuration d'environnement pour Node.js avec limites mémoire strictes
   env: {
-    NODE_OPTIONS: '--max-old-space-size=8192 --max-semi-space-size=1024',
+    NODE_OPTIONS: '--max-old-space-size=4096 --max-semi-space-size=512 --no-concurrent-recompilation',
   },
+
+  // Désactiver le pre-rendering pour réduire la charge mémoire
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  
+  // Configuration stricte pour éviter les fuites mémoire
+  poweredByHeader: false,
+  compress: false,
 };
 
 module.exports = nextConfig;
