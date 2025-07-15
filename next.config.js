@@ -12,10 +12,6 @@ const nextConfig = {
     workerThreads: false,
     cpus: 1,
   },
-  // Disable telemetry to prevent potential conflicts
-  telemetry: {
-    enabled: false
-  },
   // Optimize webpack configuration
   webpack: (config, { dev, isServer }) => {
     // Reduce memory usage
